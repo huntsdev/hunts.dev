@@ -42,7 +42,7 @@ function ThemeColor() {
       document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
     )
     const originalContent = themeColorMetas.map((meta) => meta.content)
-    const themeColor = resolvedTheme === 'dark' ? '#2d3439' : '#fefffe'
+    const themeColor = resolvedTheme === 'dark' ? '#111216' : '#fefffe'
 
     for (const meta of themeColorMetas) {
       meta.content = themeColor

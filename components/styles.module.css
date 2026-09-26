@@ -49,105 +49,94 @@
   width: 100%;
   max-width: 1100px;
   margin: auto auto 0;
-  padding: 8px;
-
+  padding: 8px 0;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
 }
 
-.copyright {
-  font-size: 80%;
-  padding: 0.5em;
+.footerIdentity {
+  color: #343a40;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
-.settings,
-.social {
-  user-select: none;
+.footerIdentity span {
+  padding: 0 4px;
+  color: #7b838c;
 }
 
-.social,
-.settings {
+.footerNavigation {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 0.25em;
+  justify-content: flex-end;
+  gap: 24px;
 }
 
-.settings a,
-.social a {
-  cursor: pointer;
-  font-size: 1.5em;
+.footerLink,
+.footerThemeButton {
+  color: #626a73;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.footerThemeButton {
+  width: 22px;
+  height: 28px;
+  padding: 0;
   display: inline-flex;
-  padding: 0.25em;
-  transition: color 250ms ease-out;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
-.settings a:hover,
-.social a:hover {
-  transition: color 50ms ease-out;
+.footerThemeButton svg {
+  width: 16px;
+  height: 16px;
 }
 
-.toggleDarkMode {
-  font-size: 2em !important;
+.footerThemeButton:disabled {
+  cursor: default;
 }
 
-.toggleDarkMode:hover {
-  color: #2795e9;
+.footerLink:hover,
+.footerThemeButton:hover:not(:disabled) {
+  color: #17191c;
 }
 
-.twitter:hover {
-  color: #2795e9;
+:global(.dark-mode) .footerIdentity {
+  color: #f5f7fa;
 }
 
-.mastodon:hover {
-  color: #5a4be1;
+:global(.dark-mode) .footerIdentity span {
+  color: #9299a2;
 }
 
-.zhihu:hover {
-  color: #0066ff;
+:global(.dark-mode) .footerLink,
+:global(.dark-mode) .footerThemeButton {
+  color: #9299a2;
 }
 
-.github:hover {
-  color: #c9510c;
-}
-
-.youtube:hover {
-  color: #ff0000;
-}
-
-.linkedin:hover {
-  color: #0077b5;
-}
-
-.newsletter:hover {
-  color: #777777;
-}
-
-.comments {
-  width: 100%;
-  margin-top: 2em;
-  border-top: 1px solid var(--fg-color-0);
+:global(.dark-mode) .footerLink:hover,
+:global(.dark-mode) .footerThemeButton:hover:not(:disabled) {
+  color: #c5cbd2;
 }
 
 @media only screen and (max-width: 566px) {
   .footer {
-    flex-direction: column;
+    padding: 12px;
+    flex-wrap: wrap;
   }
 
-  .footer > div {
-    margin-top: 1em;
+  .footerIdentity {
+    font-size: 13px;
   }
 
-  .footer .settings {
-    order: 1;
-  }
-  .footer .social {
-    order: 2;
-  }
-  .footer .copyright {
-    order: 3;
+  .footerNavigation {
+    gap: 16px;
   }
 }
 
@@ -187,41 +176,454 @@
   background: #e5f2e8;
 }
 
-@media (max-width: 1360px) {
-  .githubCorner {
-    display: none;
+.siteHeader {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  width: 100%;
+  height: 64px;
+  background: var(--bg-color);
+}
+
+.headerInner {
+  width: min(1100px, calc(100% - 40px));
+  height: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.brand {
+  justify-self: start;
+  color: #17191c;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.primaryLinks,
+.headerActions {
+  display: flex;
+  align-items: center;
+}
+
+.primaryLinks {
+  gap: 24px;
+  height: 100%;
+}
+
+.navLink {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  color: #626a73;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.activeNavLink {
+  color: var(--fg-color);
+  box-shadow: inset 0 -2px currentColor;
+}
+
+.headerActions {
+  justify-self: end;
+  gap: 14px;
+}
+
+.iconButton {
+  width: 22px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: #626a73;
+  cursor: pointer;
+  font: inherit;
+}
+
+.iconButton:disabled {
+  cursor: default;
+}
+
+.iconButton svg {
+  width: 16px;
+  height: 16px;
+}
+
+.iconButton:hover:not(:disabled),
+.navLink:hover {
+  color: var(--fg-color);
+}
+
+.searchButton :global(.notion-search-button) {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  min-width: 22px;
+  height: 28px;
+  padding: 0 !important;
+  gap: 0;
+  border: 0;
+  background: transparent;
+  color: #626a73 !important;
+}
+
+.searchButton :global(.notion-search-button .searchIcon) {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
+.searchButton :global(.notion-search-button:hover),
+.searchButton :global(.notion-search-button:hover .searchIcon) {
+  color: #17191c !important;
+  fill: currentColor !important;
+}
+
+:global(.dark-mode) .brand {
+  color: #f5f7fa;
+}
+
+:global(.dark-mode) .navLink,
+:global(.dark-mode) .iconButton,
+:global(.dark-mode) .searchButton :global(.notion-search-button),
+:global(.dark-mode) .searchButton :global(.notion-search-button .searchIcon) {
+  color: #9299a2 !important;
+  fill: currentColor !important;
+}
+
+:global(.dark-mode) .navLink:hover,
+:global(.dark-mode) .iconButton:hover:not(:disabled),
+:global(.dark-mode) .searchButton :global(.notion-search-button:hover),
+:global(.dark-mode)
+  .searchButton
+  :global(.notion-search-button:hover .searchIcon) {
+  color: #c5cbd2 !important;
+  fill: currentColor !important;
+}
+
+@media (max-width: 640px) {
+  .headerInner {
+    width: calc(100% - 24px);
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .primaryLinks {
+    justify-self: center;
+    gap: 12px;
+  }
+
+  .headerActions {
+    gap: 6px;
+  }
+
+  .brand,
+  .navLink {
+    font-size: 13px;
+  }
+
+  .iconButton,
+  .searchButton :global(.notion-search-button) {
+    width: 20px;
+    min-width: 20px;
   }
 }
 
-.githubCorner:hover .octoArm {
-  animation: octocat-wave 560ms ease-in-out;
-}
-
-@keyframes octocat-wave {
-  0%,
-  100% {
-    transform: rotate(0);
-  }
-  20%,
-  60% {
-    transform: rotate(-25deg);
-  }
-  40%,
-  80% {
-    transform: rotate(10deg);
-  }
-}
-
-@media (max-width: 500px) {
-  .githubCorner:hover .octoArm {
-    animation: none;
+@media (max-width: 420px) {
+  .headerInner {
+    width: calc(100% - 16px);
   }
 
-  .githubCorner .octoArm {
-    animation: octocat-wave 560ms ease-in-out;
+  .primaryLinks {
+    gap: 8px;
+  }
+
+  .headerActions {
+    gap: 2px;
+  }
+
+  .brand,
+  .navLink {
+    font-size: 12px;
   }
 }
 
-.hidden {
-  visibility: hidden;
+.articlePageAside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pageViewCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #737b85;
+  font-size: 12px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.pageViewCount svg,
+.viewSearchCount svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+:global(.dark-mode) .pageViewCount {
+  color: #9299a2;
+}
+
+.searchButton {
+  display: inline-flex;
+}
+
+.searchTrigger {
+  width: 22px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: #626a73;
+  cursor: pointer;
+}
+
+.searchTrigger svg,
+.viewSearchInputRow > svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+}
+
+.searchTrigger:hover {
+  color: #17191c;
+}
+
+:global(.dark-mode) .searchTrigger {
+  color: #9299a2;
+}
+
+:global(.dark-mode) .searchTrigger:hover {
+  color: #c5cbd2;
+}
+
+.viewSearchOverlay {
+  position: fixed;
+  z-index: 1100;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: clamp(24px, 7vh, 72px) 16px 24px;
+  background: rgb(7 9 13 / 46%);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+}
+
+.viewSearchDialog {
+  width: min(760px, 100%);
+  max-height: min(78vh, 760px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 16px;
+  background: rgb(250 251 253 / 82%);
+  color: #252a30;
+  box-shadow:
+    0 28px 88px rgb(0 0 0 / 35%),
+    inset 0 1px rgb(255 255 255 / 70%);
+  backdrop-filter: blur(34px) saturate(170%);
+  -webkit-backdrop-filter: blur(34px) saturate(170%);
+}
+
+.viewSearchInputRow {
+  min-height: 64px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgb(50 56 64 / 13%);
+  color: #66707b;
+}
+
+.viewSearchInputRow input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #252a30;
+  font: inherit;
+  font-size: 18px;
+}
+
+.viewSearchInputRow input::placeholder {
+  color: #7f8791;
+}
+
+.viewSearchClose {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #737b85;
+  cursor: pointer;
+  font: inherit;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.viewSearchClose:hover {
+  background: rgb(30 35 42 / 8%);
+  color: #252a30;
+}
+
+.viewSearchResults {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.viewSearchResult {
+  min-height: 64px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-radius: 9px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.viewSearchResult:hover,
+.viewSearchResultActive {
+  background: rgb(60 68 78 / 9%);
+}
+
+.viewSearchResultMain {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.viewSearchResultMain strong {
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewSearchResultMain > span {
+  overflow: hidden;
+  color: #6d7580;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewSearchCount {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  color: #6d7580;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.viewSearchEmpty {
+  margin: 0;
+  padding: 32px 16px;
+  color: #747d88;
+  text-align: center;
+}
+
+.viewSearchFooter {
+  min-height: 42px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid rgb(50 56 64 / 13%);
+  color: #737b85;
+  font-size: 12px;
+}
+
+.dark-mode .viewSearchDialog {
+  border-color: rgb(255 255 255 / 15%);
+  background: rgb(28 30 35 / 82%);
+  color: #e5e7eb;
+  box-shadow:
+    0 28px 88px rgb(0 0 0 / 60%),
+    inset 0 1px rgb(255 255 255 / 10%);
+}
+
+.dark-mode .viewSearchInputRow,
+.dark-mode .viewSearchFooter {
+  border-color: rgb(255 255 255 / 13%);
+  color: #a1a5ad;
+}
+
+.dark-mode .viewSearchInputRow input {
+  color: #e5e7eb;
+}
+
+.dark-mode .viewSearchInputRow input::placeholder,
+.dark-mode .viewSearchResultMain > span,
+.dark-mode .viewSearchCount,
+.dark-mode .viewSearchEmpty {
+  color: #a1a5ad;
+}
+
+.dark-mode .viewSearchResult:hover,
+.dark-mode .viewSearchResultActive {
+  background: rgb(255 255 255 / 9%);
+}
+
+.dark-mode .viewSearchClose {
+  color: #a1a5ad;
+}
+
+.dark-mode .viewSearchClose:hover {
+  background: rgb(255 255 255 / 9%);
+  color: #f5f7fa;
+}
+
+@media (max-width: 600px) {
+  .viewSearchOverlay {
+    padding: 12px;
+  }
+
+  .viewSearchDialog {
+    width: 100%;
+    max-height: calc(100dvh - 24px);
+  }
+
+  .viewSearchResult {
+    min-height: 58px;
+    padding: 10px;
+  }
 }

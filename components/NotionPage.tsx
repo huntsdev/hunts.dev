@@ -4,6 +4,7 @@ import cs from 'classnames'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { formatDate, getBlockTitle, getBlockValue } from 'notion-utils'
 import * as React from 'react'
 import BodyClassName from 'react-body-classname'
@@ -25,7 +26,6 @@ import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import { Footer } from './Footer'
-import { GitHubShareButton } from './GitHubShareButton'
 import { NotionPageHeader } from './NotionPageHeader'
 import { PageAside } from './PageAside'
 
@@ -33,75 +33,77 @@ import { PageAside } from './PageAside'
 // dynamic imports for optional components
 // -----------------------------------------------------------------------------
 
-const Code = dynamic(() =>
-  import('react-notion-x/third-party/code').then(async (m) => {
-    // add / remove any prism syntaxes here
-    await Promise.allSettled([
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-markup-templating.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-markup.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-bash.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-c.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-cpp.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-csharp.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-docker.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-java.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-js-templates.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-coffeescript.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-diff.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-git.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-go.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-graphql.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-handlebars.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-less.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-makefile.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-markdown.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-objectivec.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-ocaml.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-python.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-reason.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-rust.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-sass.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-scss.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-solidity.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-sql.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-stylus.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-swift.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-wasm.js'),
-      // @ts-expect-error Ignore prisma types
-      import('prismjs/components/prism-yaml.js')
-    ])
-    return m.Code
-  })
+const Code = dynamic(
+  () =>
+    import('react-notion-x/third-party/code').then(async (m) => {
+      // add / remove any prism syntaxes here
+      await Promise.allSettled([
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-markup-templating.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-markup.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-bash.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-c.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-cpp.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-csharp.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-docker.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-java.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-js-templates.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-coffeescript.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-diff.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-git.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-go.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-graphql.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-handlebars.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-less.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-makefile.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-markdown.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-objectivec.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-ocaml.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-python.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-reason.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-rust.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-sass.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-scss.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-solidity.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-sql.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-stylus.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-swift.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-wasm.js'),
+        // @ts-expect-error Ignore prisma types
+        import('prismjs/components/prism-yaml.js')
+      ])
+      return m.Code
+    }),
+  { ssr: false }
 )
 
 const Equation = dynamic(() =>
@@ -176,9 +178,65 @@ const propertyTextValue = (
   return defaultFn()
 }
 
+function NotionPageLink({
+  href,
+  className,
+  children,
+  onClick,
+  onKeyDown,
+  ...props
+}: {
+  href: string | URL
+  className?: string
+  children?: React.ReactNode
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>
+  onKeyDown?: React.KeyboardEventHandler<HTMLAnchorElement>
+  [key: string]: unknown
+}) {
+  const router = useRouter()
+
+  if (!className?.includes('notion-collection-card')) {
+    return (
+      <Link href={href} className={className} {...props}>
+        {children}
+      </Link>
+    )
+  }
+
+  const destination = href instanceof URL ? href.toString() : href
+  const navigate = () => router.push(destination)
+
+  return (
+    <div
+      {...props}
+      className={className}
+      role='link'
+      tabIndex={0}
+      onClick={(event) => {
+        if (event.target instanceof Element && event.target.closest('a')) {
+          return
+        }
+
+        onClick?.(event as unknown as React.MouseEvent<HTMLAnchorElement>)
+        navigate()
+      }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event as unknown as React.KeyboardEvent<HTMLAnchorElement>)
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          navigate()
+        }
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 const notionRendererComponents: Partial<NotionComponents> = {
   nextImage: Image,
   nextLink: Link,
+  PageLink: NotionPageLink,
   Code,
   Collection,
   Equation,
@@ -290,8 +348,6 @@ export function NotionPage({
         pageAside={pageAside}
         footer={<Footer />}
       />
-
-      <GitHubShareButton />
     </>
   )
 }

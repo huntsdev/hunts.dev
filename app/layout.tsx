@@ -24,14 +24,30 @@ export const metadata: Metadata = {
   description: config.description,
   manifest: '/manifest.json',
   icons: {
-    shortcut: '/favicon.ico',
+    shortcut: '/favicon-32x32.png',
     icon: [
       {
-        url: '/favicon.png',
+        url: '/favicon-32x32.png',
         type: 'image/png',
         sizes: '32x32'
+      },
+      {
+        url: '/favicon-128x128.png',
+        type: 'image/png',
+        sizes: '128x128'
+      },
+      {
+        url: '/favicon-192x192.png',
+        type: 'image/png',
+        sizes: '192x192'
+      },
+      {
+        url: '/favicon-512x512.png',
+        type: 'image/png',
+        sizes: '512x512'
       }
-    ]
+    ],
+    apple: '/favicon-192x192.png'
   },
   appleWebApp: {
     capable: true,
@@ -75,7 +91,7 @@ export const viewport: Viewport = {
     },
     {
       media: '(prefers-color-scheme: dark)',
-      color: '#2d3439'
+      color: '#111216'
     }
   ]
 }

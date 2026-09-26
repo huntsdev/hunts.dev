@@ -3,7 +3,8 @@ import { type Block, type ExtendedRecordMap } from 'notion-types'
 import { getPageTweet } from '@/lib/get-page-tweet'
 
 import { PageActions } from './PageActions'
-import { PageSocial } from './PageSocial'
+import { PageViewCount } from './PageViewCount'
+import styles from './styles.module.css'
 
 export function PageAside({
   block,
@@ -21,12 +22,14 @@ export function PageAside({
   // only display comments and page actions on blog post pages
   if (isBlogPost) {
     const tweet = getPageTweet(block, recordMap)
-    if (!tweet) {
-      return null
-    }
 
-    return <PageActions tweet={tweet} />
+    return (
+      <div className={styles.articlePageAside}>
+        <PageViewCount pageId={block.id} />
+        {tweet && <PageActions tweet={tweet} />}
+      </div>
+    )
   }
 
-  return <PageSocial />
+  return null
 }

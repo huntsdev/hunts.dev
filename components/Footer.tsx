@@ -1,84 +1,48 @@
 import * as React from 'react'
+import Link from 'next/link'
 
 import * as config from '@/lib/config'
-import { GitHubIcon } from '@/lib/icons/github'
-import { LinkedInIcon } from '@/lib/icons/linkedin'
 import { MoonIcon } from '@/lib/icons/moon'
 import { SunIcon } from '@/lib/icons/sun'
-import { TwitterIcon } from '@/lib/icons/twitter'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import styles from './styles.module.css'
 
 export function FooterImpl() {
-  const { hasMounted, isDarkMode, toggleDarkMode } = useDarkMode()
-  const currentYear = new Date().getFullYear()
-
-  const onToggleDarkMode = React.useCallback(
-    (e: any) => {
-      e.preventDefault()
-      toggleDarkMode()
-    },
-    [toggleDarkMode]
-  )
+  const { isDarkMode, toggleDarkMode } = useDarkMode()
+  const footerLinks = config.navigationLinks?.slice().reverse() ?? []
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.copyright}>
-        Copyright {currentYear} {config.author}
+      <div className={styles.footerIdentity}>
+        {config.author} <span aria-hidden='true'>·</span> {config.domain}
       </div>
 
-      <div className={styles.settings}>
-        {hasMounted && (
-          <a
-            className={styles.toggleDarkMode}
-            href='#'
-            role='button'
-            onClick={onToggleDarkMode}
-            title='Toggle dark mode'
-          >
-            {isDarkMode ? <MoonIcon /> : <SunIcon />}
-          </a>
-        )}
-      </div>
+      <nav className={styles.footerNavigation} aria-label='Footer navigation'>
+        {footerLinks.map((link) => {
+          if (!link?.url && !link?.pageId) {
+            return null
+          }
 
-      <div className={styles.social}>
-        {config.twitter && (
-          <a
-            className={styles.twitter}
-            href={`https://x.com/${config.twitter}`}
-            title={`X @${config.twitter}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <TwitterIcon />
-          </a>
-        )}
+          const href = link.url ?? `/${link.pageId}`
 
-        {config.github && (
-          <a
-            className={styles.github}
-            href={`https://github.com/${config.github}`}
-            title={`GitHub @${config.github}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <GitHubIcon />
-          </a>
-        )}
+          return (
+            <Link className={styles.footerLink} href={href} key={link.title}>
+              {link.title}
+            </Link>
+          )
+        })}
 
-        {config.linkedin && (
-          <a
-            className={styles.linkedin}
-            href={`https://www.linkedin.com/in/${config.linkedin}`}
-            title={`LinkedIn ${config.author}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <LinkedInIcon />
-          </a>
-        )}
-      </div>
+        <button
+          className={styles.footerThemeButton}
+          type='button'
+          onClick={toggleDarkMode}
+          aria-label='Toggle color theme'
+          title='Toggle color theme'
+        >
+          {isDarkMode ? <MoonIcon /> : <SunIcon />}
+        </button>
+      </nav>
     </footer>
   )
 }
