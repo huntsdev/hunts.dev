@@ -12,11 +12,17 @@ import '@/styles/notion.css'
 import '@/styles/prism-theme.css'
 
 import type { Metadata, Viewport } from 'next'
+import { Manrope } from 'next/font/google'
 import type { ReactNode } from 'react'
 
 import * as config from '@/lib/config'
 
 import { Providers } from './providers'
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-sans'
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(config.host),
@@ -99,7 +105,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body>
+      <body className={manrope.variable}>
         <Providers>{children}</Providers>
       </body>
     </html>
