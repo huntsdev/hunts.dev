@@ -5,7 +5,6 @@
  * for optional depenencies.
  */
 import { parsePageId } from 'notion-utils'
-import type PostHog from 'posthog-js-lite'
 
 import {
   getEnv,
@@ -164,11 +163,6 @@ export const fathomConfig = fathomId
       excludedDomains: ['localhost', 'localhost:3000']
     }
   : undefined
-
-export const posthogId = process.env.NEXT_PUBLIC_POSTHOG_ID
-export const posthogConfig = {
-  host: 'https://app.posthog.com'
-} satisfies NonNullable<ConstructorParameters<typeof PostHog>[1]>
 
 function cleanPageUrlMap(
   pageUrlMap: PageUrlOverridesMap,

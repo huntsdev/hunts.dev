@@ -1,4 +1,9 @@
 import type * as types from '@/lib/types'
+import {
+  flushPostHogLogs,
+  logNotionSearchCompleted,
+  logNotionSearchStarted
+} from '@/lib/posthog-log-exporter'
 import { search } from '@/lib/notion'
 
 const maxBodySize = 1_000_000
@@ -36,8 +41,11 @@ export async function POST(request: Request) {
     )
   }
 
+  logNotionSearchStarted()
   console.log('<<< lambda search-notion', searchParams)
   const results = await search(searchParams)
+  logNotionSearchCompleted()
+  await flushPostHogLogs()
   console.log('>>> lambda search-notion', results)
 
   return Response.json(results, {

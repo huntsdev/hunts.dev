@@ -1,5 +1,6 @@
 import type * as React from 'react'
 import cs from 'classnames'
+import posthog from 'posthog-js'
 
 import * as config from '@/lib/config'
 
@@ -80,6 +81,16 @@ export function PageSocial() {
           title={action.title}
           target='_blank'
           rel='noopener noreferrer'
+          onClick={() => {
+            if (
+              process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
+              process.env.NEXT_PUBLIC_POSTHOG_HOST
+            ) {
+              posthog.capture('social_link_clicked', {
+                destination: action.name
+              })
+            }
+          }}
         >
           <div className={styles.actionBg}>
             <div className={styles.actionBgPane} />

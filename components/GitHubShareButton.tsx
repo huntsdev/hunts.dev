@@ -1,3 +1,5 @@
+import posthog from 'posthog-js'
+
 import styles from './styles.module.css'
 
 export function GitHubShareButton() {
@@ -8,6 +10,14 @@ export function GitHubShareButton() {
       rel='noopener noreferrer'
       className={styles.githubCorner}
       aria-label='View source on GitHub'
+      onClick={() => {
+        if (
+          process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
+          process.env.NEXT_PUBLIC_POSTHOG_HOST
+        ) {
+          posthog.capture('source_repository_clicked')
+        }
+      }}
     >
       <svg
         width='80'

@@ -1,3 +1,5 @@
+import posthog from 'posthog-js'
+
 import { LikeIcon } from '@/lib/icons/like'
 import { RetweetIcon } from '@/lib/icons/retweet'
 
@@ -15,6 +17,14 @@ export function PageActions({ tweet }: { tweet: string }) {
         target='_blank'
         rel='noopener noreferrer'
         title='Like this post on Twitter'
+        onClick={() => {
+          if (
+            process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
+            process.env.NEXT_PUBLIC_POSTHOG_HOST
+          ) {
+            posthog.capture('post_action_clicked', { action: 'like' })
+          }
+        }}
       >
         <LikeIcon />
       </a>
@@ -25,6 +35,14 @@ export function PageActions({ tweet }: { tweet: string }) {
         target='_blank'
         rel='noopener noreferrer'
         title='Retweet this post on Twitter'
+        onClick={() => {
+          if (
+            process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
+            process.env.NEXT_PUBLIC_POSTHOG_HOST
+          ) {
+            posthog.capture('post_action_clicked', { action: 'repost' })
+          }
+        }}
       >
         <RetweetIcon />
       </a>

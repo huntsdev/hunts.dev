@@ -15,6 +15,7 @@ import {
 import { Collection } from 'react-notion-x/third-party/collection'
 import { EmbeddedTweet, TweetNotFound, TweetSkeleton } from 'react-tweet'
 import { useSearchParam } from 'react-use'
+import posthog from 'posthog-js'
 
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
@@ -202,6 +203,22 @@ export function NotionPage({
 
   const { isDarkMode } = useDarkMode()
 
+  const searchNotionWithAnalytics = React.useCallback(
+    async (params: types.SearchParams) => {
+      const results = await searchNotion(params)
+
+      if (
+        process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
+        process.env.NEXT_PUBLIC_POSTHOG_HOST
+      ) {
+        posthog.capture('notion_search_completed')
+      }
+
+      return results
+    },
+    []
+  )
+
   const siteMapPageUrl = React.useMemo(() => {
     const params: any = {}
     if (lite) params.lite = lite
@@ -267,7 +284,9 @@ export function NotionPage({
         defaultPageCoverPosition={config.defaultPageCoverPosition}
         mapPageUrl={siteMapPageUrl}
         mapImageUrl={mapImageUrl}
-        searchNotion={config.isSearchEnabled ? searchNotion : undefined}
+        searchNotion={
+          config.isSearchEnabled ? searchNotionWithAnalytics : undefined
+        }
         pageAside={pageAside}
         footer={<Footer />}
       />
