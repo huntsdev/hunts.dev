@@ -26,6 +26,7 @@ import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import { Footer } from './Footer'
+import { NotionButton } from './NotionButton'
 import { NotionPageHeader } from './NotionPageHeader'
 import { PageAside } from './PageAside'
 
@@ -237,6 +238,7 @@ const notionRendererComponents: Partial<NotionComponents> = {
   nextImage: Image,
   nextLink: Link,
   PageLink: NotionPageLink,
+  Button: NotionButton,
   Code,
   Collection,
   Equation,
